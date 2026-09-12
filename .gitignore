@@ -16,3 +16,4 @@ test-results
 .cache/
 .tmp-chromium/
 *.tsbuildinfo
+.tmp-rls-pg/
