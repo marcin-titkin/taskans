@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,7 +11,7 @@ import { loginAs } from './helpers';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const axeSource = fs.readFileSync(path.join(root, 'node_modules/axe-core/axe.min.js'), 'utf8');
 
-async function scan(page: import('@playwright/test').Page, label: string) {
+async function scan(page: Page, label: string) {
   await page.addScriptTag({ content: axeSource });
   const results = await page.evaluate(async () => {
     interface AxeResults {

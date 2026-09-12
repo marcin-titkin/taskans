@@ -169,7 +169,7 @@ export function TeamBoardPage() {
         <ul className="grid gap-3 md:grid-cols-2 xl:grid-cols-3" aria-label={`Lista zadań, ${rows.length} pozycji`}>
           {rows.map((w) => (
             <li key={w.id}>
-              <WorkOrderCard wo={w} locationName={locName(w.location_id)} lead={person(w.lead_worker_id)} category={cat(w.category_id)} />
+              <WorkOrderCard titleTag="h2" wo={w} locationName={locName(w.location_id)} lead={person(w.lead_worker_id)} category={cat(w.category_id)} />
             </li>
           ))}
         </ul>

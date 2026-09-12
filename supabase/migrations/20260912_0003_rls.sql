@@ -22,8 +22,8 @@ create policy profiles_select on public.profiles
 drop policy if exists profiles_self_or_admin on public.profiles;
 create policy profiles_self_or_admin on public.profiles
   for update to authenticated
-  using (id = auth.uid() or app.is_admin())
-  with check (id = auth.uid() or app.is_admin());
+  using (id = (select auth.uid()) or app.is_admin())
+  with check (id = (select auth.uid()) or app.is_admin());
 
 -- słowniki: odczyt dla załogi, zapis dla przełożonych (nazwy lokalizacji nie mogą się rozjechać)
 drop policy if exists dict_select on public.locations;
@@ -48,15 +48,15 @@ drop policy if exists wo_insert on public.work_orders;
 create policy wo_insert on public.work_orders
   for insert to authenticated
   with check (
-    requester_id = auth.uid() or app.is_manager()
+    requester_id = (select auth.uid()) or app.is_manager()
   );
 
 -- aktualizacja: warunek globalny, a pola i statusy dozoruje trigger app.guard_wo_columns()
 drop policy if exists wo_update on public.work_orders;
 create policy wo_update on public.work_orders
   for update to authenticated
-  using (app.is_manager() or app.is_participant(id) or requester_id = auth.uid())
-  with check (app.is_manager() or app.is_participant(id) or requester_id = auth.uid());
+  using (app.is_manager() or app.is_participant(id) or requester_id = (select auth.uid()))
+  with check (app.is_manager() or app.is_participant(id) or requester_id = (select auth.uid()));
 
 -- usuwanie zleceń nie istnieje w obiegu (historyjne zostają)
 drop policy if exists wo_delete on public.work_orders;
@@ -78,8 +78,8 @@ create policy upd_insert on public.work_order_updates
   for insert to authenticated
   with check (
     -- jawność: każdy członek zespołu komentuje; „w imieniu” tylko przez przełożonego
-    entered_by = auth.uid()
-    and (performed_by is null or performed_by = auth.uid() or app.is_manager())
+    entered_by = (select auth.uid())
+    and (performed_by is null or performed_by = (select auth.uid()) or app.is_manager())
   );
 -- brak polityki update/delete → append-only również na poziomie RLS (plus trigger)
 
@@ -87,16 +87,16 @@ create policy upd_insert on public.work_order_updates
 drop policy if exists att_select on public.attachments;
 create policy att_select on public.attachments for select to authenticated using (true);
 drop policy if exists att_insert on public.attachments;
-create policy att_insert on public.attachments for insert to authenticated with check (uploaded_by = auth.uid());
+create policy att_insert on public.attachments for insert to authenticated with check (uploaded_by = (select auth.uid()));
 drop policy if exists att_delete on public.attachments;
-create policy att_delete on public.attachments for delete to authenticated using (uploaded_by = auth.uid() or app.is_admin());
+create policy att_delete on public.attachments for delete to authenticated using (uploaded_by = (select auth.uid()) or app.is_admin());
 
 -- materiały: czytają wszyscy; zgłasza uczestnik/przełożony; status zmienia przełożony
 drop policy if exists mat_select on public.material_requests;
 create policy mat_select on public.material_requests for select to authenticated using (true);
 drop policy if exists mat_insert on public.material_requests;
 create policy mat_insert on public.material_requests
-  for insert to authenticated with check (created_by = auth.uid());
+  for insert to authenticated with check (created_by = (select auth.uid()));
 drop policy if exists mat_update on public.material_requests;
 create policy mat_update on public.material_requests
   for update to authenticated using (app.is_manager()) with check (app.is_manager());
@@ -115,12 +115,12 @@ create policy audit_admin on public.audit_log
 -- powiadomienia: tylko odbiorca
 drop policy if exists notif_self on public.notifications;
 create policy notif_self on public.notifications
-  for select to authenticated using (recipient_id = auth.uid());
+  for select to authenticated using (recipient_id = (select auth.uid()));
 drop policy if exists notif_read on public.notifications;
 create policy notif_read on public.notifications
   for update to authenticated
-  using (recipient_id = auth.uid())
-  with check (recipient_id = auth.uid());
+  using (recipient_id = (select auth.uid()))
+  with check (recipient_id = (select auth.uid()));
 -- insert tylko przez app.notify() (security definer) i wyzwalacze
 
 grant usage on schema public to authenticated;

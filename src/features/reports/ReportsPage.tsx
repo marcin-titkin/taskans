@@ -38,7 +38,7 @@ export function ReportsPage() {
           return (
             <Card key={d} className={d === todayDateStr() ? 'ring-2 ring-brand-600' : undefined}>
               <CardHeader>
-                <CardTitle className="flex items-center justify-between gap-2">
+                <CardTitle as="h2" className="flex items-center justify-between gap-2">
                   <Link to={`/raporty/${d}`} className="underline-offset-2 hover:underline">
                     {formatDatePl(`${d}T12:00:00`)}
                   </Link>

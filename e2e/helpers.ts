@@ -9,17 +9,17 @@ export async function loginAs(page: Page, name: string): Promise<void> {
       async () => {
         if ((await card.count()) === 0) {
           // pełne przeładowanie w trakcie seedowania demo-bazy — dociągnij i spróbuj znów
-          await page.reload().catch(() => {});
+          await page.reload().catch(() => void 0);
           await page.waitForTimeout(600);
           return false;
         }
         await card
           .first()
           .click({ delay: 20, timeout: 4000 })
-          .catch(() => {});
+          .catch(() => void 0);
         await page
           .waitForURL(/#\/(pulpit|moja-praca|zespol)/, { timeout: 2500 })
-          .catch(() => {});
+          .catch(() => void 0);
         return /#\/(pulpit|moja-praca|zespol)/.test(page.url());
       },
       { timeout: 30_000, message: `Brak karty demo użytkownika: ${name}` }
@@ -65,7 +65,7 @@ export async function clickScrolled(loc: ReturnType<Page['locator']>): Promise<v
           return (
             await loc
               .first()
-              .evaluate((el) => (el as HTMLElement).click() as void)
+              .evaluate((el) => (el as HTMLElement).click())
               .then(() => true)
               .catch(() => false)
           );
@@ -97,7 +97,7 @@ export async function clickDialogConfirm(page: Page, buttonName: RegExp, require
           await btn
             .first()
             .evaluate((el) => (el as HTMLElement).click())
-            .catch(() => {});
+            .catch(() => void 0);
         }
         await page.waitForTimeout(120);
         return (await page.getByRole('dialog').count()) === 0;
@@ -122,7 +122,7 @@ export async function selectOption(page: Page, trigger: ReturnType<Page['locator
         await page.keyboard.press(' ');
         await page.waitForTimeout(120);
         if ((await opt.count()) > 0) return true;
-        await trigger.click({ delay: 20 }).catch(() => {}); // zapas: kursor
+        await trigger.click({ delay: 20 }).catch(() => void 0); // zapas: kursor
         await page.waitForTimeout(150);
         return (await opt.count()) > 0;
       },

@@ -64,7 +64,7 @@ export function SyncPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Kolejka operacji ({items.length})</CardTitle>
+          <CardTitle as="h2">Kolejka operacji ({items.length})</CardTitle>
           <p className="text-sm text-slate-600">
             Zmiany czekają w pamięci urządzenia do momentu potwierdzenia przez serwer. Nic nie ginie przy braku internetu ani
             awarii wysyłki — operacje ponawiamy automatycznie.

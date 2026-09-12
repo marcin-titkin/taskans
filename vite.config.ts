@@ -32,8 +32,8 @@ export default defineConfig({
           { src: '/pwa-maskable-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
         shortcuts: [
-          { name: 'Moja praca', url: '/moja-praca', description: 'Zadania przypisane do mnie' },
-          { name: 'Nowe zlecenie', url: '/zlecenia/nowe', description: 'Zgłoś pracę do wykonania' },
+          { name: 'Moja praca', url: '/#/moja-praca', description: 'Zadania przypisane do mnie' },
+          { name: 'Nowe zlecenie', url: '/#/zlecenia/nowe', description: 'Zgłoś pracę do wykonania' },
         ],
       },
       workbox: {
@@ -48,8 +48,8 @@ export default defineConfig({
       '@': path.resolve(import.meta.dirname, 'src'),
     },
   },
-  server: { host: '0.0.0.0' },
-  preview: { host: '0.0.0.0' },
+  server: { host: '0.0.0.0', allowedHosts: true },
+  preview: { host: '0.0.0.0', allowedHosts: true },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/test/setup.ts'],

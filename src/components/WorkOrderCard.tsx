@@ -8,6 +8,8 @@ import type { Category, ProfileLite } from '@/components/types';
 import type { CachedWorkOrder } from '@/data/db';
 
 export interface WorkOrderCardProps {
+  /** poziom nagłówka tytułu — na stronach bez sekcji h2 podnieś do 'h2' (kolejność nagłówków a11y) */
+  titleTag?: 'h2' | 'h3';
   wo: CachedWorkOrder;
   locationName: string | null;
   lead: ProfileLite | null;
@@ -16,7 +18,8 @@ export interface WorkOrderCardProps {
 }
 
 /** Karta zadania — tytuł, lokalizacja, priorytet, status, prowadzący, termin (wg briefu). */
-export function WorkOrderCard({ wo, locationName, lead, category, to }: WorkOrderCardProps) {
+export function WorkOrderCard({ wo, locationName, lead, category, to, titleTag = 'h3' }: WorkOrderCardProps) {
+  const TitleTag = titleTag;
   const due = wo.expected_date ? dueLabelPl(wo.expected_date) : null;
   const overdue = due?.includes('po terminie');
   const href = to ?? `/zlecenia/${wo.id}`;
@@ -32,7 +35,7 @@ export function WorkOrderCard({ wo, locationName, lead, category, to }: WorkOrde
           <StatusBadge status={wo.status} dirty={wo.dirty} />
           <span className="ml-auto font-mono text-xs text-slate-500">{formatWorkOrderNumber(wo.sequential_number)}</span>
         </div>
-        <h3 className="text-lg font-bold leading-6 text-slate-900">{wo.title}</h3>
+        <TitleTag className="text-lg font-bold leading-6 text-slate-900">{wo.title}</TitleTag>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-slate-700">
           <span className="inline-flex items-center gap-1.5">
             <MapPin className="h-4 w-4 shrink-0" aria-hidden="true" />

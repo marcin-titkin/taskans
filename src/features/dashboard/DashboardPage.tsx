@@ -79,7 +79,7 @@ export function DashboardPage() {
         <section aria-labelledby="sec-holds">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
+              <CardTitle as="div" className="flex items-center gap-2 text-lg">
                 <PauseCircle className="h-5 w-5 text-red-700" aria-hidden="true" />
                 <h2 id="sec-holds">Blokady wymagające decyzji</h2>
               </CardTitle>
@@ -121,7 +121,7 @@ export function DashboardPage() {
         <section aria-labelledby="sec-decisions">
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
+              <CardTitle as="div" className="flex items-center gap-2 text-lg">
                 <ClipboardCheck className="h-5 w-5 text-emerald-700" aria-hidden="true" />
                 <h2 id="sec-decisions">Sprawy wymagające decyzji dyrektora</h2>
               </CardTitle>

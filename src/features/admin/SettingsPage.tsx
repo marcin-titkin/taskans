@@ -69,7 +69,7 @@ function UsersPanel() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Użytkownicy i role</CardTitle>
+        <CardTitle as="h2" className="text-lg">Użytkownicy i role</CardTitle>
         <p className="text-sm text-slate-600">
           Każda osoba ma własne konto — żadnych wspólnych loginów. Role: {Object.values(roleLabels).join(', ')}. W trybie
           Supabase nowe konta zakłada administrator w Supabase Dashboard (pod tym samym e-mailem), a profilu nie da się
@@ -131,7 +131,7 @@ function CategoriesPanel() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Kategorie prac</CardTitle>
+        <CardTitle as="h2" className="text-lg">Kategorie prac</CardTitle>
         <p className="text-sm text-slate-600">Kolejność i nazwy dostosowane do obiektu; wyłączenie kategorii nie usuwa jej z historii zadań.</p>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -170,7 +170,7 @@ function LocationsPanel() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Lokalizacje</CardTitle>
+        <CardTitle as="h2" className="text-lg">Lokalizacje</CardTitle>
         <p className="text-sm text-slate-600">Budynek, piętro i numer pomieszczenia są opcjonalne — ważna jest czytelna nazwa, którą zna zespół.</p>
       </CardHeader>
       <CardContent className="space-y-2">
@@ -236,7 +236,7 @@ function SystemPanel() {
     <div className="grid gap-4 lg:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
+          <CardTitle as="h2" className="flex items-center gap-2 text-lg">
             <ShieldCheck className="h-5 w-5 text-emerald-700" aria-hidden="true" /> Prywatność i zaufanie
           </CardTitle>
         </CardHeader>
@@ -254,7 +254,7 @@ function SystemPanel() {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Stan lokalny</CardTitle>
+          <CardTitle as="h2" className="text-lg">Stan lokalny</CardTitle>
         </CardHeader>
         <CardContent>
           {stats.data ? (
