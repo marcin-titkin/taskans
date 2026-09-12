@@ -171,11 +171,11 @@ export function UnrequestedWorkPage() {
           </div>
         </Card>
 
-        <div className="flex gap-3">
-          <Button type="submit" size="lg" className="flex-1" disabled={busy}>
+        <div className="flex flex-col-reverse gap-2 sm:flex-row sm:gap-3">
+          <Button type="submit" size="lg" className="w-full flex-1" disabled={busy}>
             {busy ? 'Zapisywanie…' : 'Zapisz jako wykonane'}
           </Button>
-          <Button type="button" variant="secondary" size="lg" onClick={() => navigate(-1)}>
+          <Button type="button" variant="secondary" size="lg" className="w-full sm:w-auto" onClick={() => navigate(-1)}>
             Anuluj
           </Button>
         </div>

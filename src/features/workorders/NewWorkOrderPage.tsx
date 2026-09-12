@@ -281,11 +281,11 @@ export function NewWorkOrderPage() {
           </div>
         </details>
 
-        <div className="sticky bottom-16 z-10 flex flex-wrap items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 p-3 backdrop-blur md:static md:border-0 md:bg-transparent">
-          <Button type="submit" size="lg" className="flex-1" disabled={busy || isSubmitting}>
+        <div className="sticky bottom-16 z-10 flex flex-col-reverse gap-2 rounded-2xl border border-slate-200 bg-white/95 p-3 backdrop-blur sm:flex-row sm:flex-wrap sm:items-center sm:gap-3 md:static md:border-0 md:bg-transparent">
+          <Button type="submit" size="lg" className="w-full flex-1" disabled={busy || isSubmitting}>
             {busy ? 'Zapisywanie…' : 'Zapisz zlecenie'}
           </Button>
-          <Button type="button" variant="secondary" size="lg" onClick={() => navigate(-1)}>
+          <Button type="button" variant="secondary" size="lg" className="w-full sm:w-auto" onClick={() => navigate(-1)}>
             Anuluj
           </Button>
         </div>

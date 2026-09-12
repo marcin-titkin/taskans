@@ -14,7 +14,15 @@ class Bus {
     return () => this.handlers.delete(h);
   }
   emit(e: BusEvent): void {
-    for (const h of this.handlers) h(e);
+    // izolacja błędów: awaria jednego handlera nie może odciąć pozostałych
+    // (inaczej np. toast wywala się i cała sieć żywych podpięć głuchnie)
+    for (const h of this.handlers) {
+      try {
+        h(e);
+      } catch (err) {
+        console.error(`[bus] błąd handlera (typ ${e.type}):`, err);
+      }
+    }
   }
 }
 

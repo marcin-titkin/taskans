@@ -93,7 +93,7 @@ function UsersPanel() {
               </SelectContent>
             </Select>
             <Switch label={p.active ? 'aktywne' : 'nieaktywne'} checked={p.active} onCheckedChange={(c) => void save(p, { active: c })} />
-            <span className="text-xs text-slate-400">{p.id.slice(0, 8)}…</span>
+            <span className="text-xs text-slate-500">{p.id.slice(0, 8)}…</span>
           </div>
         ))}
         {appMode() === 'demo' ? (

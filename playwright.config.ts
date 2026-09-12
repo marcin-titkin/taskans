@@ -56,8 +56,6 @@ function sparticuzSetup(): BrowserEnv | null {
         '--no-sandbox',
         '--disable-setuid-sandbox',
         '--disable-dev-shm-usage',
-        '--single-process',
-        '--no-zygote',
         '--disable-gpu',
         '--disable-software-rasterizer',
         '--in-process-gpu',

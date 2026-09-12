@@ -51,7 +51,8 @@ export type Action =
 /** Kto może co — zgodnie z briefem i politykami RLS. */
 export const ACTION_RULES: Record<Action, (ctx: ActorContext) => boolean> = {
   createWorkOrder: () => true,
-  editFields: (c) => isManager(c.role) || (c.isRequester && true),
+  // Uwaga: „zgłaszający tylko gdy status NEW” egzekwuje reduktor/serwer (tu nie mamy statusu w ctx).
+  editFields: (c) => isManager(c.role) || c.isRequester,
   assign: (c) => isManager(c.role),
   changePriority: (c) => isManager(c.role),
   // Wykonawca startuje tylko tam, gdzie jest przydzielony; kierownik/dyrektor może wszędzie (w tym „w imieniu”).

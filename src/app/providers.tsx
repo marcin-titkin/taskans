@@ -7,8 +7,14 @@ import { emitDataChanged } from '@/lib/bus';
 
 const queryClient = new QueryClient({
   defaultOptions: {
-    queries: { retry: 1, staleTime: 5_000 },
-    mutations: { retry: 0 },
+    queries: {
+      retry: 1,
+      staleTime: 5_000,
+      // odczyty idą offline-first przez cache (Dexie/IDB) — TanStack nie może ich
+      // pauzować przy braku sieci; za serwer odpowiada SyncManager/outbox
+      networkMode: 'always',
+    },
+    mutations: { retry: 0, networkMode: 'always' },
   },
 });
 
@@ -18,9 +24,12 @@ function DataLiveBridge() {
   useEffect(() => {
     if (status !== 'authenticated') return;
     void refreshCache().then(() => emitDataChanged('boot-refresh'));
-    const off = getGateway().subscribeRealtime?.(() => {
+    // Realtime tylko dla Supabase: w demo „serwer” siedzi w tej samej karcie i zmiany
+    // idą przez magistralę — subskrypcja mostkowałaby emit→refresh→emit w nieskończoność.
+    const gateway = getGateway();
+    const off = gateway.mode === 'supabase' ? gateway.subscribeRealtime?.(() => {
       void refreshCache().then(() => emitDataChanged('realtime'));
-    });
+    }) : undefined;
     const onOnline = () => void refreshCache().then(() => emitDataChanged('online'));
     window.addEventListener('online', onOnline);
     return () => {
